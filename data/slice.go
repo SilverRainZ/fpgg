@@ -10,7 +10,19 @@ type Slice[T any] struct {
 	s []T
 }
 
-func FromSlice[T any](s []T) *Slice[T] {
+func SliceFromValue[T any](s []T) *Slice[T] {
+	return &Slice[T]{s: s}
+}
+
+func SliceFromIter[T any](i Iter[T]) *Slice[T] {
+	var s []T
+	for {
+		v := i.Next()
+		if !v.Ok() {
+			break
+		}
+		s = append(s, v.Just())
+	}
 	return &Slice[T]{s: s}
 }
 

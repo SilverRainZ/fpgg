@@ -1,4 +1,4 @@
-package fn
+package util
 
 import (
 	"constraints"
