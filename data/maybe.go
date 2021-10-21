@@ -1,5 +1,9 @@
 package data
 
+import (
+	"fmt"
+)
+
 type Maybe[T any] struct {
 	just T
 	ok   bool
@@ -14,8 +18,8 @@ func Nothing[T any]() Maybe[T] {
 }
 
 func (m Maybe[T]) Must() T {
-	if m.ok {
-		panic("Maybe: nothing")
+	if !m.ok {
+		panic(fmt.Errorf("nothing in Maybe[%T]", m.just))
 	}
 	return m.just
 }

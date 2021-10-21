@@ -50,14 +50,19 @@ func Filter[T any](f func(T) bool, src data.Iter[T]) data.Iter[T] {
 	return &filterIter[T]{f: f, src: src}
 }
 
-func List[T any](src data.Iter[T]) (dst []T) {
+func Collect[T any](i data.Iter[T], f func(v T)) {
 	for {
-		v := src.Next()
+		v := i.Next()
 		if !v.Ok() {
 			return
 		}
-		dst = append(dst, v.Just())
+		f(v.Just())
 	}
+}
+
+func List[T any](src data.Iter[T]) (dst []T) {
+	Collect(src, func(v T) { dst = append(dst, v) })
+	return
 }
 
 func Head[T any](i data.Iter[T]) data.Maybe[T] {
@@ -78,4 +83,23 @@ func Tail[T any](i data.Iter[T]) data.Maybe[T] {
 
 func Reverse[T any](i data.Iter[T]) data.Iter[T] {
 	return data.FromSlice(List(i)).RevIter()
+}
+
+func Max[T any](less func(T, T) bool, i data.Iter[T]) data.Maybe[T] {
+	maybeMax := i.Next()
+	if !maybeMax.Ok() {
+		return maybeMax
+	}
+	max := maybeMax.Just()
+	Collect(i, func(v T) {
+		if less(max, v) {
+			max = v
+		}
+	})
+	return data.Just(max)
+}
+
+func Min[T any](less func(T, T) bool, i data.Iter[T]) data.Maybe[T] {
+	more := func(a, b T) bool { return !less(a, b) }
+	return Max[T](more, i)
 }

@@ -51,7 +51,7 @@ type sliceIter[T any] struct {
 }
 
 func (i *sliceIter[T]) Next() Maybe[T] {
-	if (i.delta > 0 && i.i < len(i.s)) || i.i >= 0 {
+	if (i.delta > 0 && i.i < len(i.s)) || (i.delta < 0 && i.i >= 0) {
 		v := i.s[i.i]
 		i.i += i.delta
 		return Just(v)
