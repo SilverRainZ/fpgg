@@ -90,7 +90,7 @@ func Last[T any](i data.Iter[T]) T {
 }
 
 func Reverse[T any](i data.Iter[T]) data.Iter[T] {
-	return data.SliceFromValue(List(i)).RevIter()
+	return data.FromSlice(List(i)).RevIter()
 }
 
 func MaxOfOrdered[T constraints.Ordered](i data.Iter[T]) data.Maybe[T] {

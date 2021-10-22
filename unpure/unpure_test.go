@@ -9,7 +9,7 @@ import (
 )
 
 func ExampleMax() {
-	i := data.SliceFromValue([]int{1, 2, 3, 4})
+	i := data.FromSlice([]int{1, 2, 3, 4})
 	v := MaxOfOrdered(i.Iter())
 	fmt.Println("max:", v.Must())
 	// Output:
@@ -17,7 +17,7 @@ func ExampleMax() {
 }
 
 func ExampleReverse() {
-	i := data.SliceFromValue([]int{1, 2, 3, 4})
+	i := data.FromSlice([]int{1, 2, 3, 4})
 	s := Reverse(i.Iter())
 	fmt.Println(List(s))
 	// Output:
@@ -25,7 +25,7 @@ func ExampleReverse() {
 }
 
 func ExampleFilter() {
-	i := data.SliceFromValue([]int{1, 2, 0, 3, 0, 4})
+	i := data.FromSlice([]int{1, 2, 0, 3, 0, 4})
 	s := Filter(util.NonZero[int], i.Iter())
 	fmt.Println(List(s))
 	// Output:
@@ -34,7 +34,7 @@ func ExampleFilter() {
 
 func ExampleMap() {
 	f := func(v int) string { return strconv.Itoa(v) }
-	i := data.SliceFromValue([]int{1, 2, 3, 4})
+	i := data.FromSlice([]int{1, 2, 3, 4})
 	s := Map(f, i.Iter())
 	fmt.Println(List(s))
 	// Output:
@@ -42,7 +42,7 @@ func ExampleMap() {
 }
 
 func ExampleTake() {
-	i := data.SliceFromValue([]int{1, 2, 3, 4})
+	i := data.FromSlice([]int{1, 2, 3, 4})
 	s := Take(2, i.Iter())
 	fmt.Println(List(s))
 	// Output:

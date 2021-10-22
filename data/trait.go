@@ -17,3 +17,8 @@ type Iterable[T any] interface {
 type Iter[T any] interface {
 	Next() Maybe[T]
 }
+
+type Functor[T any] interface {
+	Iterable[T]
+	Replace(Iter[T]) Functor[T]
+}
